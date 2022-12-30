@@ -5,6 +5,7 @@ import os
 import cv2
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 from tensorflow.keras import utils
 from tensorflow.keras import layers, models, optimizers
 
@@ -63,16 +64,20 @@ def create_model():
     
     conv_layer_1 = layers.Conv2D(64, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu')
     conv_layer_2 = layers.Conv2D(128, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu')
-    conv_layer_3 = layers.Conv2D(256, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu') 
+    conv_layer_3 = layers.Conv2D(256, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu')
+    conv_layer_4 = layers.Conv2D(512, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu') 
     pooling_layer_1 = layers.MaxPooling2D(pool_size=(2, 2))
     pooling_layer_2 = layers.MaxPooling2D(pool_size=(2, 2))
     pooling_layer_3 = layers.MaxPooling2D(pool_size=(2, 2))
+    pooling_layer_4 = layers.MaxPooling2D(pool_size=(2, 2))
     batch_norm_layer_1 = layers.BatchNormalization() 
     batch_norm_layer_2 = layers.BatchNormalization()
-    batch_norm_layer_3 = layers.BatchNormalization() 
+    batch_norm_layer_3 = layers.BatchNormalization()
+    batch_norm_layer_4 = layers.BatchNormalization()
     flatten_layer = layers.Flatten()
     dropout = layers.Dropout(0.2)
-    dense_layer = layers.Dense(1024, activation='relu')
+    dense_layer = layers.Dense(2048, activation='relu')
+    dense_layer_2 = layers.Dense(512, activation='relu')
     output_layer = layers.Dense(29, activation='softmax')
     
     # Creation of Model
@@ -87,11 +92,15 @@ def create_model():
         conv_layer_3, 
         pooling_layer_3,
         batch_norm_layer_3,
+        conv_layer_4, 
+        pooling_layer_4,
+        batch_norm_layer_4,
         flatten_layer,
         dropout,
         dense_layer,
+        dense_layer_2,
         output_layer
-    ])
+    ],name='Subby')
     
     # Compile model
     # Categorical crossentropy is used since the data labels are categorical and one hot encoded
@@ -115,9 +124,19 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  verbose=1)
 
 # Training
-model.fit(x_train, y_train, batch_size=32, epochs=10, validation_split=0.2, callbacks=[cp_callback], shuffle = True, verbose=1)
+
+model.fit(x_train, y_train, batch_size=32, epochs=5, validation_split=0.2, callbacks=[cp_callback], shuffle = True, verbose=1)
 
 # Evaluation
+
 test_loss, test_acc = model.evaluate(x_test, y_test)
 print('Test accuracy:', test_acc)
 print('Test loss:', test_loss)
+
+proba_pred = model.predict(x_test)
+y_pred=np.zeros(shape=(proba_pred.shape))
+for index, element in enumerate(proba_pred):
+    y_pred[index][np.argmax(element)]=1
+    
+report = classification_report(y_test, y_pred, target_names=classes)
+print(report)
