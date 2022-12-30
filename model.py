@@ -6,12 +6,10 @@ import cv2
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import utils
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, BatchNormalization
+from tensorflow.keras import layers, models, optimizers
 
-train_dir = '../input/asl-alphabet/asl_alphabet_train/asl_alphabet_train'
-test_dir = '../input/asl-alphabet/asl_alphabet_test/asl_alphabet_test'
+total_dir= '../input/asl-alphabet/asl_alphabet_train/asl_alphabet_train'
+
 
 # Gather data
 
@@ -22,10 +20,10 @@ labels=[]
 
 dataNum=1000
 
-for root in os.listdir(train_dir):
+for root in os.listdir(total_dir):
     for index in range(1,dataNum):
         imagename=root+str(index)+'.jpg'
-        img=cv2.imread(train_dir+'/'+root+'/'+imagename,1)
+        img=cv2.imread(total_dir+'/'+root+'/'+imagename,1)
         img = cv2.resize(img, (32, 32))
         images.append(img)
         labels.append(root)
@@ -56,34 +54,54 @@ x_train,x_test,y_train,y_test=train_test_split(images,encodedlabels,random_state
 print("Training data:", x_train.shape)
 print("Test data:", x_test.shape)
 
-# Creation and layering of Convolutional layers with Pooling and Dense Neural layers to classify
+# Build model
+def create_model():
 
-model = Sequential()
+    # Add layers of model
+    
+    conv_layer_1 = layers.Conv2D(64, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu')
+    conv_layer_2 = layers.Conv2D(128, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu')
+    conv_layer_3 = layers.Conv2D(256, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu') 
+    pooling_layer_1 = layers.MaxPooling2D(pool_size=(2, 2))
+    pooling_layer_2 = layers.MaxPooling2D(pool_size=(2, 2))
+    pooling_layer_3 = layers.MaxPooling2D(pool_size=(2, 2))
+    batch_norm_layer_1 = layers.BatchNormalization() 
+    batch_norm_layer_2 = layers.BatchNormalization()
+    batch_norm_layer_3 = layers.BatchNormalization() 
+    flatten_layer = layers.Flatten()
+    dropout = layers.Dropout(0.2)
+    dense_layer = layers.Dense(1024, activation='relu')
+    output_layer = layers.Dense(29, activation='softmax')
+    
+    # Creation of Model
+                                
+    model = models.Sequential([
+        conv_layer_1, 
+        pooling_layer_1,
+        batch_norm_layer_1,
+        conv_layer_2, 
+        pooling_layer_2,
+        batch_norm_layer_2,
+        conv_layer_3, 
+        pooling_layer_3,
+        batch_norm_layer_3,
+        flatten_layer,
+        dropout,
+        dense_layer,
+        output_layer
+    ])
+    
+    # Compile model
+    # Categorical crossentropy is used since the data labels are categorical and one hot encoded
+    # Adam optimiser is used as it applies both momentum and RMSP(Root Mean Squared Propagation)
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    
+    return model
 
-model.add(Conv2D(64, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(BatchNormalization())
+# Prints and Creates Model Architecture
 
-model.add(Conv2D(128, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(BatchNormalization())
-model.add(Dropout(0.2))
-
-model.add(Conv2D(256, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(BatchNormalization())
-
-model.add(Flatten())
-model.add(Dropout(0.2))
-model.add(Dense(1024, activation='relu'))
-model.add(Dense(29, activation='softmax'))
-
-# Prints Model Architecture
-
+model = create_model()
 model.summary()
-
-adam = Adam(learning_rate=0.001)
-model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Path of Checkpoint
 checkpoint_path = "training_1/cp.ckpt"
