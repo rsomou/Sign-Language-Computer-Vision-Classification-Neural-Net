@@ -1,2 +1,4 @@
 # Sign-Language-Computer-Vision-Classification-Neural-Net
 Computer Vision based on 87,000 images of sign language images to classify them into letters using a Convolutional Neural Net in Keras
+
+The dataset used utilized around 3000 images of hand symbols ranging from 'A' to 'Z' and 3 special characters for a total of 29 different classes. In the data preprocessing, I utilized only around 1000 images out of each category to reduce the ammount of time and computational power spent on training. I appended each image directly from the directory to np arrays to which I resized them and normalized their values from 1-0. For the labels, I took the name of the directory the file was contained in and then applied one hot encoding to the transformed labels to give a 29 dimensional vector that could be compared to the 29 dimensional output of the CNN.
