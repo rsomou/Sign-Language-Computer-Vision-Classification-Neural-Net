@@ -21,9 +21,9 @@ labels=[]
 dataNum=1000
 
 for root in os.listdir(total_dir):
-    for index in range(1,dataNum):
+    for index in range(1,dataNum+1):
         imagename=root+str(index)+'.jpg'
-        img=cv2.imread(total_dir+'/'+root+'/'+imagename,1)
+        img=cv2.imread(total_dir+'/'+root+'/'+imagename,0)
         img = cv2.resize(img, (32, 32))
         images.append(img)
         labels.append(root)
@@ -39,11 +39,13 @@ for index, element in enumerate(labels):
     encodedlabels[index][classes.index(element)]=1
     
 
-# Normalize values of images to between 0-1
+# Normalize values of images to between 0-1 and create dimensionality needed for CNN
 
 images=np.array(images)
 images = images.astype('float32') 
 images/=255
+
+images = images[:, :, :, np.newaxis]
 
 print(images.shape)
 print(encodedlabels.shape)
@@ -59,9 +61,9 @@ def create_model():
 
     # Add layers of model
     
-    conv_layer_1 = layers.Conv2D(64, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu')
-    conv_layer_2 = layers.Conv2D(128, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu')
-    conv_layer_3 = layers.Conv2D(256, (3, 3), padding='same', input_shape = (32, 32, 3), activation='relu') 
+    conv_layer_1 = layers.Conv2D(64, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu')
+    conv_layer_2 = layers.Conv2D(128, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu')
+    conv_layer_3 = layers.Conv2D(256, (3, 3), padding='same', input_shape = (32, 32, 1), activation='relu') 
     pooling_layer_1 = layers.MaxPooling2D(pool_size=(2, 2))
     pooling_layer_2 = layers.MaxPooling2D(pool_size=(2, 2))
     pooling_layer_3 = layers.MaxPooling2D(pool_size=(2, 2))
