@@ -7,39 +7,39 @@ The dataset used utilized around 3000 images of hand symbols ranging from 'A' to
 
 In the model, I utilized a 4 layered CNN with 2x2 Max pooling and batch normalization then which was then flatten and applied with dropout which preprocessed the input into a 3 layer dense neural net that took in the flattened feature vector and outputted a 29 dim vector. The Convolutional layers utilized a 3x3 kernal to create 64 filters to 128 to 256 to 512. Then to reduce dimensionality, max pooling layers were added after each Conv2D which selected the greatest value out of a 2x2 grid that was convolved on each filter map. And lastly, batch normalization was utilized to normalize the activation vectors from the Conv2D layers to then be passed into further Conv2D layers. This happened 3 times to create a 2x2x512 tensor output which was flattened to a 2048 dimensional vector abstracting features from the original transformed image. Dropout was applied after to reduce the chance of overfitting as it randomally dropped input nodes by 20% and increased the rest of the data by a scaled amount so the sum would be conserved. Then the flattened vector went through a 2048 to 512 to 29 dense neural network using reLU as its activation in the first 2 layers to prevent gradient vanishing. And lasty, the final layer used a softmax activation to create a probability vector to then classify the image.
 
-In terms of metrics, I utilized the classifcation report to see the precision, f1 score and accuracy of each class for the model. The total accuracy for the test split of the data was 93%.
+In terms of metrics, I utilized the classifcation report to see the precision, f1 score and accuracy of each class for the model. The total accuracy for the test split of the data was 93%. This was the result of the report given for each class.
 
-precision    recall  f1-score   support
+precision    recall  f1-score
 
-           A       1.00      1.00      1.00       108
-           B       1.00      0.69      0.82        95
-           C       0.84      1.00      0.92        98
-           D       0.80      0.85      0.83        92
-           E       0.83      1.00      0.91        91
-           F       1.00      0.97      0.99       118
-           G       0.99      1.00      1.00       111
-           H       0.77      1.00      0.87       106
-           I       0.75      0.99      0.85       108
-           J       1.00      0.70      0.82        86
-           K       1.00      0.63      0.77       106
-           L       1.00      0.84      0.91        92
-           M       1.00      0.86      0.92       118
-           N       0.92      0.96      0.94       101
-           O       0.90      0.98      0.94       101
-           P       1.00      0.99      1.00       108
-           Q       0.94      1.00      0.97        80
-           R       0.97      0.40      0.56        93
-           S       1.00      0.71      0.83        97
-           T       0.74      1.00      0.85        99
-           U       0.76      0.97      0.85       121
-           V       0.98      0.81      0.89       100
-           W       1.00      0.75      0.86       101
-           X       0.49      1.00      0.66        89
-           Y       1.00      0.99      1.00       102
-           Z       1.00      0.78      0.88        95
-         del       1.00      1.00      1.00        87
-     nothing       0.97      1.00      0.98        96
-       space       1.00      0.86      0.93       101
+           A       1.00      1.00      1.00      
+           B       1.00      0.69      0.82        
+           C       0.84      1.00      0.92        
+           D       0.80      0.85      0.83        
+           E       0.83      1.00      0.91        
+           F       1.00      0.97      0.99       
+           G       0.99      1.00      1.00       
+           H       0.77      1.00      0.87       
+           I       0.75      0.99      0.85       
+           J       1.00      0.70      0.82       
+           K       1.00      0.63      0.77       
+           L       1.00      0.84      0.91        
+           M       1.00      0.86      0.92       
+           N       0.92      0.96      0.94       
+           O       0.90      0.98      0.94       
+           P       1.00      0.99      1.00       
+           Q       0.94      1.00      0.97        
+           R       0.97      0.40      0.56        
+           S       1.00      0.71      0.83        
+           T       0.74      1.00      0.85        
+           U       0.76      0.97      0.85       
+           V       0.98      0.81      0.89       
+           W       1.00      0.75      0.86       
+           X       0.49      1.00      0.66        
+           Y       1.00      0.99      1.00       
+           Z       1.00      0.78      0.88        
+         del       1.00      1.00      1.00        
+     nothing       0.97      1.00      0.98        
+       space       1.00      0.86      0.93       
 
    micro avg       0.89      0.89      0.89      2900
    macro avg       0.92      0.89      0.89      2900
