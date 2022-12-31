@@ -125,7 +125,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 
 # Training
 
-model.fit(x_train, y_train, batch_size=32, epochs=5, validation_split=0.2, callbacks=[cp_callback], shuffle = True, verbose=1)
+model.fit(x_train, y_train, batch_size=32, epochs=3, validation_split=0.2, callbacks=[cp_callback], shuffle = True, verbose=1)
 
 # Evaluation
 
