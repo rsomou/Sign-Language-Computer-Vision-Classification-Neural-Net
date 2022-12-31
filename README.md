@@ -41,7 +41,10 @@ precision    recall  f1-score
      nothing       0.97      1.00      0.98        
        space       1.00      0.86      0.93       
 
-   micro avg       0.89      0.89      0.89      2900
-   macro avg       0.92      0.89      0.89      2900
-weighted avg       0.92      0.89      0.89      2900
- samples avg       0.89      0.89      0.89      2900
+   micro avg       0.89      0.89      0.89      
+   
+   macro avg       0.92      0.89      0.89     
+   
+weighted avg       0.92      0.89      0.89      
+
+ samples avg       0.89      0.89      0.89      
