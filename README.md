@@ -39,14 +39,10 @@ In terms of metrics, I utilized the classifcation report to see the precision, f
            Z       1.00      0.78      0.88        
          del       1.00      1.00      1.00        
      nothing       0.97      1.00      0.98        
-       space       1.00      0.86      0.93
-       
-   micro avg          0.89         0.89          0.89      
-   
-   macro avg       0.92      0.89      0.89     
-   
-weighted avg       0.92      0.89      0.89      
-
+       space       1.00      0.86      0.93       
+   micro avg       0.89      0.89      0.89  
+   macro avg       0.92      0.89      0.89   
+weighted avg       0.92      0.89      0.89
  samples avg       0.89      0.89      0.89
  
  I believe that this specific model does very well in terms of not overfitting to the data but as well as correctly predicting new data. Changing the layers and overall structure lead to significant changes in training time and accuracy at the end of prediction. With 4 epoches I achieved a 99% accuracy, but I thought this was due to overfitting so with just 3 epochs this model could still achieve a 93% accuracy which shows the versatitalty of the model in training as well as testing. This model can be a very useful tool in diplomatic settings or even day to day interactions as the immediate translation of sign language to people that dont know the symbols within ASL could have those conversations readily. If I were to continue this project, maybe implementing this into a camera of some sort would be the next logical step to to make it usable and accessible to the real world. In terms of code, this would drastically make data input much more complex as taking a live feed would have alot of data preprocessing steps but at the end of the day it definitely seems feasible to accomplish.
