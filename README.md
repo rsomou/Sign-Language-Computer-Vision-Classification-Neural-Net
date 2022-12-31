@@ -9,7 +9,7 @@ In the model, I utilized a 4 layered CNN with 2x2 Max pooling and batch normaliz
 
 In terms of metrics, I utilized the classifcation report to see the precision, f1 score and accuracy of each class for the model. The total accuracy for the test split of the data was 93%. This was the result of the report given.
 
-precision    recall  f1-score
+                 precision  recall   f1-score
 
            A       1.00      1.00      1.00      
            B       1.00      0.69      0.82        
