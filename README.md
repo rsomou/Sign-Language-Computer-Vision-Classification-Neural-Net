@@ -39,9 +39,9 @@ In terms of metrics, I utilized the classifcation report to see the precision, f
            Z       1.00      0.78      0.88        
          del       1.00      1.00      1.00        
      nothing       0.97      1.00      0.98        
-       space       1.00      0.86      0.93       
-
-   micro avg       0.89      0.89      0.89      
+       space       1.00      0.86      0.93
+       
+   micro avg          0.89         0.89          0.89      
    
    macro avg       0.92      0.89      0.89     
    
